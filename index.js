@@ -90,9 +90,11 @@ email: ${userEmail}
 ***
 ## Table of Contents
 - Description
-- How to install
-- How to use
+- Installation
+- Usage
 - Contributors 
+- Tests
+- Questions
 ***
 ## Description
 ${data.descriptionl}
