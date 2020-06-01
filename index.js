@@ -53,6 +53,11 @@ inquirer
       default: "no install",
     },
     {
+      type: "input",
+      message: "What do you use this project for?",
+      name: "usage",
+    },
+    {
       type: "list",
       message: "Choose a license",
       name: "license",
@@ -66,9 +71,20 @@ inquirer
     },
     {
       type: "input",
-      message: "who are the contributors",
-      name: "contributors",
-      default: "only me",
+      message: "What tests would you like to run?",
+      name: "tests",
+      default: "none",
+    },
+    {
+      type: "confirm",
+      message: "Do you have any questions?",
+      name: "questionConfirm",
+    },
+    {
+      type: "confirm",
+      message: "What is your question?",
+      name: "questions",
+      when: (answers) => answers.questionConfirm === true,
     },
   ])
   .then(function (data) {
@@ -78,15 +94,18 @@ inquirer
       data.install,
       data.usage,
       data.license,
-      data.contributors
+      data.contributors,
+      data.tests,
+      data.questionConfirm,
+      data.questions
     );
     fs.writeFile(
       "ReadMe.md",
-      `![license type](https://img.shields.io/badge/License-${data.license}-blue)
+      `# ${data.title}
+      ![license type](https://img.shields.io/badge/License-${data.license}-blue)
       <br>
 ![userPic](${userPic})<br>
 email: ${userEmail}
-# ${data.title}
 ***
 ## Table of Contents
 - Description
@@ -106,7 +125,14 @@ ${data.install}
 ${data.usage}
 ***
 ## Contributors
-${data.contributors}`,
+${data.contributors}
+***
+## Tests
+${data.tests}
+***
+## Questions
+${data.questions}
+***`,
       (error) => {
         if (error) {
           console.log(error);
@@ -115,13 +141,3 @@ ${data.contributors}`,
       }
     );
   });
-
-// inquirer.prompt(questions).then((answers) => console.log(answers));
-
-// function writeToFile(README, data) {
-//   // const data = generateMD(answers);
-// }
-
-// function init() {}
-
-// init();
