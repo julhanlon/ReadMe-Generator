@@ -25,11 +25,6 @@ inquirer
   .prompt([
     {
       type: "input",
-      message: "Enter your GitHub username:",
-      name: "username",
-    },
-    {
-      type: "input",
       message: "Enter project title",
       name: "title",
     },
@@ -69,9 +64,54 @@ inquirer
       name: "contributors",
       default: "only me",
     },
+    {
+      type: "input",
+      message: "who are the contributors",
+      name: "contributors",
+      default: "only me",
+    },
   ])
-  .then((answers) => {
-    console.log("Answers:", answers);
+  .then(function (data) {
+    console.log(
+      data.title,
+      data.desc,
+      data.install,
+      data.usage,
+      data.license,
+      data.contributors
+    );
+    fs.writeFile(
+      "ReadMe.md",
+      `![license type](https://img.shields.io/badge/License-${data.license}-blue)
+      <br>
+![userPic](${userPic})<br>
+email: ${userEmail}
+# ${data.title}
+***
+## Table of Contents
+- Description
+- How to install
+- How to use
+- Contributors 
+***
+## Description
+${data.descriptionl}
+***
+## How to install
+${data.install}
+***
+## Intended Usage
+${data.usage}
+***
+## Contributors
+${data.contributors}`,
+      (error) => {
+        if (error) {
+          console.log(error);
+        }
+        console.log("ReadMe generated");
+      }
+    );
   });
 
 // inquirer.prompt(questions).then((answers) => console.log(answers));

@@ -17,9 +17,9 @@ ${data.installation}
 # Usage
 ${data.usage}
 # Licence
-${data.licenceInput}
+${data.licence}
 # Contributors
-${data.creditsInput}
+${data.contributors}
 
 `;
 }
