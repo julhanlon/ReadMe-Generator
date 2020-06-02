@@ -34,19 +34,6 @@ inquirer
       name: "description",
     },
     {
-      type: "checkbox",
-      message: "Select categories to include in Table of Contents",
-      name: "table of contents",
-      choices: [
-        "Installation",
-        "Usage",
-        "License",
-        "Contributing",
-        "Tests",
-        "Questions",
-      ],
-    },
-    {
       type: "input",
       message: "What is the installation process?",
       name: "installation",
