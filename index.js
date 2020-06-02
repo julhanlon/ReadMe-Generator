@@ -2,6 +2,9 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 const axios = require("axios");
 
+var userEmail = "";
+var userPic;
+
 inquirer
   .prompt([
     {
