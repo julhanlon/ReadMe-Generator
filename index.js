@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const axios = require("axios");
-// const generateMD = require("./generateMarkdown");
+const apiCall = require("./api");
 
 inquirer
   .prompt([
@@ -12,7 +12,7 @@ inquirer
     },
     {
       type: "input",
-      message: "Enter project title",
+      message: "Enter your project title",
       name: "title",
     },
     {
@@ -61,22 +61,21 @@ inquirer
       when: (answers) => answers.questionConfirm === true,
     },
   ])
-  .then(({ username }) => {
-    const searchUrl = `https://api.github.com/users/${username}`;
-    axios.get(searchUrl).then((res) => {
-      let userPic = res.data.avatar_url;
-      let userEmail = res.data.email;
-      if (userEmail === null) {
-        userEmail = "No email";
-      }
-    });
+  .then((res) => apiCall(res.data))
+  .then((res) => {
+    let userEmail = res.data.email;
+    if (userEmail === null) {
+      userEmail = "No user email";
+    }
+    let userPic = res.data.avatar_url;
   })
   .then((res) => {
     fs.writeFile(
       "README.md",
       `# ${res.title}
-          ![license](https://img.shields.io/badge/License-${res.license}-blue)
-          ***
+      ***
+    ![license](https://img.shields.io/badge/License-${res.license}-blue)
+      ***
     ![userPic](${res.userPic})
     ***
     email: ${res.userEmail}
