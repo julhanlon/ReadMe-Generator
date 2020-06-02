@@ -66,15 +66,14 @@ inquirer
   .then(({ username }) => {
     axios.get(`https://api.github.com/users/${username}`).then(({ data }) => {
       console.log(data);
-      return axios.get(`https://api.github.com/users/${username}`);
     });
   })
   .then((res) => {
-    var userEmail = res.data.email;
+    userEmail = res.data.email;
     if (userEmail === null) {
       userEmail = "No user email";
     }
-    var userPic = res.avatar_url;
+    userPic = res.avatar_url;
   })
   .then((res) => {
     fs.writeFile(
@@ -83,9 +82,9 @@ inquirer
       ***
     ![license](https://img.shields.io/badge/License-${res.license}-blue)
       ***
-    ![userPic](${res.userPic})
+    ![userPic](${userPic})
     ***
-    email: ${res.userEmail}
+    ![giphy]("./")
     ***
     ## Table of Contents
     - Description
@@ -112,7 +111,9 @@ inquirer
     ***
     ## Questions
     ${res.questions}
-    ***`
+    ***
+    Email:${userEmail}
+    `
     );
   })
   .catch((error) => console.log(error));
