@@ -1,7 +1,6 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const axios = require("axios");
-const apiCall = require("./api");
 
 inquirer
   .prompt([
@@ -62,14 +61,17 @@ inquirer
     },
   ])
   .then(({ username }) => {
-    axios.get(`https://api.github.com/users/${username}`);
+    axios.get(`https://api.github.com/users/${username}`).then(({ data }) => {
+      console.log(data);
+      return axios.get(`https://api.github.com/users/${username}`);
+    });
   })
   .then((res) => {
-    let userEmail = res.data.email;
+    var userEmail = res.data.email;
     if (userEmail === null) {
       userEmail = "No user email";
     }
-    let userPic = res.data.avatar_url;
+    var userPic = res.avatar_url;
   })
   .then((res) => {
     fs.writeFile(
