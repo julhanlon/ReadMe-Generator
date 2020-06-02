@@ -61,9 +61,8 @@ inquirer
       when: (answers) => answers.questionConfirm === true,
     },
   ])
-  .then(function ({ username }) {
+  .then(({ username }) => {
     const searchUrl = `https://api.github.com/users/${username}`;
-
     axios.get(searchUrl).then((res) => {
       let userPic = res.data.avatar_url;
       let userEmail = res.data.email;
@@ -73,57 +72,41 @@ inquirer
     });
   })
   .then((res) => {
-    console.log(
-      res.title,
-      res.description,
-      res.install,
-      res.usage,
-      res.license,
-      res.contributors,
-      res.tests,
-      res.questionConfirm,
-      res.questions
-    );
     fs.writeFile(
       "README.md",
       `# ${res.title}
-      ![license](https://img.shields.io/badge/License-${res.license}-blue)
-      ***
-![userPic](${res.userPic})
-***
-email: ${res.userEmail}
-***
-## Table of Contents
-- Description
-- Installation
-- Usage
-- Contributors 
-- Tests
-- Questions
-***
-## Description
-${res.descriptionl}
-***
-## How to install
-${res.install}
-***
-## Intended Usage
-${res.usage}
-***
-## Contributors
-${res.contributors}
-***
-## Tests
-${res.tests}
-***
-## Questions
-${res.questions}
-***`,
-      (error) => {
-        if (error) {
-          console.log(error);
-        }
-        console.log("ReadMe generated");
-      }
+          ![license](https://img.shields.io/badge/License-${res.license}-blue)
+          ***
+    ![userPic](${res.userPic})
+    ***
+    email: ${res.userEmail}
+    ***
+    ## Table of Contents
+    - Description
+    - Installation
+    - Usage
+    - Contributors 
+    - Tests
+    - Questions
+    ***
+    ## Description
+    ${res.descriptionl}
+    ***
+    ## How to install
+    ${res.install}
+    ***
+    ## Intended Usage
+    ${res.usage}
+    ***
+    ## Contributors
+    ${res.contributors}
+    ***
+    ## Tests
+    ${res.tests}
+    ***
+    ## Questions
+    ${res.questions}
+    ***`
     );
-  });
+  })
+  .catch((error) => console.log(error));
