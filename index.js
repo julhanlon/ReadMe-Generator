@@ -4,25 +4,12 @@ const axios = require("axios");
 // const generateMD = require("./generateMarkdown");
 
 inquirer
-  .prompt({
-    type: "input",
-    message: "Enter your GitHub username",
-    name: "username",
-  })
-  .then(function ({ username }) {
-    const searchUrl = `https://api.github.com/users/${username}`;
-
-    axios.get(searchUrl).then(function (res) {
-      let userPic = res.data.avatar_url;
-      let userEmail = res.data.email;
-      if (userEmail === null) {
-        userEmail = "No email";
-      }
-    });
-  });
-
-inquirer
   .prompt([
+    {
+      type: "input",
+      message: "Enter your Github username",
+      name: "username",
+    },
     {
       type: "input",
       message: "Enter project title",
@@ -74,25 +61,37 @@ inquirer
       when: (answers) => answers.questionConfirm === true,
     },
   ])
-  .then(function (data) {
+  .then(function ({ username }) {
+    const searchUrl = `https://api.github.com/users/${username}`;
+
+    axios.get(searchUrl).then((res) => {
+      let userPic = res.data.avatar_url;
+      let userEmail = res.data.email;
+      if (userEmail === null) {
+        userEmail = "No email";
+      }
+    });
+  })
+  .then((res) => {
     console.log(
-      data.title,
-      data.desc,
-      data.install,
-      data.usage,
-      data.license,
-      data.contributors,
-      data.tests,
-      data.questionConfirm,
-      data.questions
+      res.title,
+      res.description,
+      res.install,
+      res.usage,
+      res.license,
+      res.contributors,
+      res.tests,
+      res.questionConfirm,
+      res.questions
     );
     fs.writeFile(
-      "ReadMe.md",
-      `# ${data.title}
-      ![license type](https://img.shields.io/badge/License-${data.license}-blue)
-      <br>
-![userPic](${userPic})<br>
-email: ${userEmail}
+      "README.md",
+      `# ${res.title}
+      ![license](https://img.shields.io/badge/License-${res.license}-blue)
+      ***
+![userPic](${res.userPic})
+***
+email: ${res.userEmail}
 ***
 ## Table of Contents
 - Description
@@ -103,22 +102,22 @@ email: ${userEmail}
 - Questions
 ***
 ## Description
-${data.descriptionl}
+${res.descriptionl}
 ***
 ## How to install
-${data.install}
+${res.install}
 ***
 ## Intended Usage
-${data.usage}
+${res.usage}
 ***
 ## Contributors
-${data.contributors}
+${res.contributors}
 ***
 ## Tests
-${data.tests}
+${res.tests}
 ***
 ## Questions
-${data.questions}
+${res.questions}
 ***`,
       (error) => {
         if (error) {
