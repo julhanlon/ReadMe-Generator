@@ -61,7 +61,9 @@ inquirer
       when: (answers) => answers.questionConfirm === true,
     },
   ])
-  .then((res) => apiCall(res.data))
+  .then(({ username }) => {
+    axios.get(`https://api.github.com/users/${username}`);
+  })
   .then((res) => {
     let userEmail = res.data.email;
     if (userEmail === null) {
