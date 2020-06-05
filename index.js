@@ -93,7 +93,7 @@ inquirer
     - Questions
     
 ## Description
-    ${answers.descriptionl}
+    ${answers.description}
     
 ## How to install
     ${answers.install}

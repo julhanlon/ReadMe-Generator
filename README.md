@@ -17,7 +17,7 @@
 
 ## Description
 
-    undefined
+    this project is used to create Readme.md files for Github using node.js
 
 ## How to install
 
