@@ -82,7 +82,7 @@ inquirer
 
 ![userPic](${userPic})
     
-![giphy]("./")
+![giphy]("./assests/readme_gen")
     
 ## Table of Contents
     - Description
